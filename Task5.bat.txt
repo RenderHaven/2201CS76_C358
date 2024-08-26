@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Function to display usage information
+usage() {
+    echo "Usage: $0 [-c count] destination"
+    exit 1
+}
+
+# Default values
+count=4
+
+# Parse command line options
+while getopts ":c:" opt; do
+    case $opt in
+        c) count=$OPTARG ;;
+        *) usage ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+
+# Check if a destination was provided
+if [ -z "$1" ]; then
+    usage
+fi
+
+destination=$1
+
+# Ping the destination with the specified count
+echo "Pinging $destination with $count packets:"
+ping -c $count $destination
